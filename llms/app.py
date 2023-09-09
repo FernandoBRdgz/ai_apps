@@ -1,9 +1,48 @@
 import os
 import streamlit as st
+
 from dotenv import load_dotenv
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 
 load_dotenv()
-API_KEY = os.getenv("OPENAI_API_KEY")
-print(API_KEY)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-st.write("Hello world. Let's learn how to build a AI-based app together.")
+
+def main():
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=OPENAI_API_KEY, temperature=0)
+
+    st.set_page_config(
+        page_title="App Básica",
+        page_icon=":computer:"
+    )
+    st.header("Asistente Virtual")
+
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            SystemMessage(content="You are a helpful assistant.")
+        ]
+
+    # Monitor user input
+    if user_input := st.chat_input("Ingresa tu pregunta aquí:"):
+        st.session_state.messages.append(HumanMessage(content=user_input))
+        with st.spinner("ChatGPT is typing ..."):
+            response = llm(st.session_state.messages)
+        st.session_state.messages.append(AIMessage(content=response.content))
+
+    # Chat history
+    messages = st.session_state.get('messages', [])
+    for message in messages:
+        if isinstance(message, AIMessage):
+            with st.chat_message('assistant'):
+                st.markdown(message.content)
+        elif isinstance(message, HumanMessage):
+            with st.chat_message('user'):
+                st.markdown(message.content)
+        else:
+            st.write("¿En qué puedo ayudarte?")
+
+
+if __name__ == '__main__':
+    main()
