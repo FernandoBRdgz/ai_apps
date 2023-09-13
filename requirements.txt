@@ -1,5 +1,7 @@
+beautifulsoup4==4.12.2
 langchain==0.0.285
 openai==0.28.0
 python-dotenv==1.0.0
 streamlit==1.26.0
+streamlit-chat==0.1.1
 tiktoken==0.4.0
