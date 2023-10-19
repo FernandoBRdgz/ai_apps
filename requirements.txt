@@ -1,9 +1,12 @@
 beautifulsoup4==4.12.2
 langchain==0.0.285
 openai==0.28.0
+PyPDF2==3.0.1
 python-dotenv==1.0.0
 pytube==15.0.0
+qdrant-client==1.6.3
 streamlit==1.26.0
 streamlit-chat==0.1.1
 tiktoken==0.4.0
 youtube-transcript-api==0.6.1
+PyPDF2
