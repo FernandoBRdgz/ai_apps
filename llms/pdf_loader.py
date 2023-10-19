@@ -39,9 +39,9 @@ def get_pdf_text():
         text = '\n\n'.join([page.extract_text() for page in pdf_reader.pages])
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             model_name=st.session_state.emb_model_name,
-            # The appropriate chunk size needs to be adjusted based on the PDF being queried.
-            # If it's too large, it may not be able to reference information from various parts during question answering.
-            # On the other hand, if it's too small, one chunk may not contain enough contextual information.
+            # El tamaño de fragmento apropiado (chunk_size) debe ajustarse según el PDF que se consulta.
+            # Si es demasiado grande, es posible que no pueda hacer referencia a información de varias partes al responder preguntas.
+            # Por otro lado, si es demasiado pequeño, es posible que un fragmento no contenga suficiente información contextual.
             chunk_size=250,
             chunk_overlap=0,
         )
@@ -53,11 +53,11 @@ def get_pdf_text():
 def load_qdrant():
     client = QdrantClient(path=QDRANT_PATH)
 
-    # Get all collection names.
+    # Obtener todos los nombres de las colecciones.
     collections = client.get_collections().collections
     collection_names = [collection.name for collection in collections]
 
-    # If the collection does not exist, create it.
+    # Si la colección no existe, se crea.
     if COLLECTION_NAME not in collection_names:
         client.create_collection(
             collection_name=COLLECTION_NAME,
@@ -76,7 +76,7 @@ def build_vector_store(pdf_text):
     qdrant = load_qdrant()
     qdrant.add_texts(pdf_text)
 
-    # You can also do it like this. In this case, the vector database will be initialized every time.
+    # Como opción alternativa, la base de datos vectorial se inicializará cada vez.
     # Qdrant.from_texts(
     #     pdf_text,
     #     OpenAIEmbeddings(),
@@ -99,7 +99,7 @@ def page_ask_my_pdf():
     st.title("Consultar PDF")
     st.write('Bajo Construcción')
 
-    # To be implemented later.
+    # Se implementará más adelante.
 
 
 def main():

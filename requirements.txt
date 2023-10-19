@@ -9,4 +9,3 @@ streamlit==1.26.0
 streamlit-chat==0.1.1
 tiktoken==0.4.0
 youtube-transcript-api==0.6.1
-PyPDF2

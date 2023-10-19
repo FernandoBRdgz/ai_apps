@@ -57,9 +57,9 @@ def get_pdf_text():
         text = '\n\n'.join([page.extract_text() for page in pdf_reader.pages])
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             model_name="text-embedding-ada-002",
-            # The appropriate chunk size needs to be adjusted based on the PDF being queried.
-            # If it's too large, it may not be able to reference information from various parts during question answering.
-            # On the other hand, if it's too small, one chunk may not contain enough contextual information.
+            # El tamaño de fragmento apropiado (chunk_size) debe ajustarse según el PDF que se consulta.
+            # Si es demasiado grande, es posible que no pueda hacer referencia a información de varias partes al responder preguntas.
+            # Por otro lado, si es demasiado pequeño, es posible que un fragmento no contenga suficiente información contextual.
             chunk_size=500,
             chunk_overlap=0,
         )
@@ -71,11 +71,11 @@ def get_pdf_text():
 def load_qdrant():
     client = QdrantClient(path=QDRANT_PATH)
 
-    # Get all collection names.
+    # Obtener todos los nombres de las colecciones.
     collections = client.get_collections().collections
     collection_names = [collection.name for collection in collections]
 
-    # If the collection does not exist, create it.
+    # Si la colección no existe, se crea.
     if COLLECTION_NAME not in collection_names:
         client.create_collection(
             collection_name=COLLECTION_NAME,
@@ -94,7 +94,7 @@ def build_vector_store(pdf_text):
     qdrant = load_qdrant()
     qdrant.add_texts(pdf_text)
 
-    # You can also do it like this. In this case, the vector database will be initialized every time.
+    # Como opción alternativa, la base de datos vectorial se inicializará cada vez.
     # Qdrant.from_texts(
     #     pdf_text,
     #     OpenAIEmbeddings(),
@@ -106,9 +106,9 @@ def build_vector_store(pdf_text):
 def build_qa_model(llm):
     qdrant = load_qdrant()
     retriever = qdrant.as_retriever(
-        # There are also "mmr," "similarity_score_threshold," and others.
+        # También hay "mmr", "similarity_score_threshold" y otros.
         search_type="similarity",
-        # How many documents to retrieve? (default: 4)
+        # ¿Cuántos documentos recuperar? (predeterminado: 4)
         search_kwargs={"k":10}
     )
     return RetrievalQA.from_chain_type(
@@ -160,7 +160,7 @@ def page_ask_my_pdf():
 
         if answer:
             with response_container:
-                st.markdown("## Answer")
+                st.markdown("## Respuesta")
                 st.write(answer)
 
 
