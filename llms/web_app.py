@@ -39,9 +39,9 @@ def init_messages():
 def select_model():
     model = st.sidebar.radio("Modelo:", ("GPT-3.5", "GPT-4"))
     if model == "GPT-3.5":
-        model_name = "gpt-3.5-turbo"
+        model_name = "gpt-3.5-turbo-1106"
     else:
-        model_name = "gpt-4"
+        model_name = "gpt-4-1106-preview"
 
     return ChatOpenAI(temperature=0, model_name=model_name)
 
@@ -76,7 +76,7 @@ def get_content(url):
 
 
 def build_prompt(content, n_chars=300):
-    return f"""Aquí está el contenido de una página web. Proporcione un resumen conciso de alrededor de {n_chars} caracteres.
+    return f"""Aquí está el contenido de una página web. Proporcione un resumen conciso de alrededor de {n_chars} caracteres en Español.
 
 ========
 

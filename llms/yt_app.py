@@ -25,9 +25,9 @@ def init_page():
 def select_model():
     model = st.sidebar.radio("Modelo:", ("GPT-3.5", "GPT-4"))
     if model == "GPT-3.5":
-        model_name = "gpt-3.5-turbo"
+        model_name = "gpt-3.5-turbo-1106"
     else:
-        model_name = "gpt-4"
+        model_name = "gpt-4-1106-preview"
     return ChatOpenAI(temperature=0, model_name=model_name)
 
 

@@ -10,7 +10,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 def main():
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=OPENAI_API_KEY, temperature=0)
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo-1106", openai_api_key=OPENAI_API_KEY, temperature=0)
 
     st.set_page_config(
         page_title="App Básica",
