@@ -2,9 +2,10 @@ import os
 import streamlit as st
 
 from dotenv import load_dotenv
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
-from langchain.callbacks import get_openai_callback
+from langchain_openai import ChatOpenAI
+from langchain.schema import SystemMessage, HumanMessage, AIMessage
+from langchain_community.callbacks.manager import get_openai_callback
+# from langchain.callbacks import get_openai_callback
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -29,18 +30,18 @@ def init_messages():
 
 
 def select_model():
-    model = st.sidebar.radio("Modelo:", ("GPT-3.5", "GPT-4"))
-    if model == "GPT-3.5":
-        model_name = "gpt-3.5-turbo-1106"
-    else:
-        model_name = "gpt-4-1106-preview"
+    model = st.sidebar.radio("Modelo:", ("GPT-4o-mini", "GPT-4o"))
+    if model == "GPT-4o-mini":
+        model_name = "gpt-4o-mini"
+    elif model == "GPT-4o":
+        model_name = "gpt-4o"
     temperature = st.sidebar.slider("Temperatura:", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
     return ChatOpenAI(temperature=temperature, model_name=model_name)
 
 
 def get_answer(llm, messages):
     with get_openai_callback() as cb:
-        answer = llm(messages)
+        answer = llm.invoke(messages)
     return answer.content, cb.total_cost
 
 
